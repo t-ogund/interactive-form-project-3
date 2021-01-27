@@ -3,6 +3,12 @@ const otherJobRole = document.querySelector("#other-job-role");
 const title = document.querySelector("#title");
 const color = document.querySelector("#color");
 const design = document.querySelector("#design");
+const activities = document.querySelector("#activities");
+const activitiesCost = document.querySelector("#activities-cost");
+const payment = document.querySelector("#payment");
+const creditCard = document.querySelector("#credit-card");
+const payPal = document.querySelector("#paypal");
+const bitCoin = document.querySelector("#bitcoin");
 
 
 name.focus();
@@ -36,4 +42,37 @@ design.addEventListener("change", (e) => {
             }
         }
     }  
+})
+
+let totalCost = 0;
+activities.addEventListener("change", (e) => {
+    if (e.target.checked === true) {
+        totalCost += parseInt(e.target.dataset.cost);
+    } else {
+        totalCost -= parseInt(e.target.dataset.cost);
+    }
+    activitiesCost.textContent = `${totalCost}`;
+    console.log(totalCost)
+})
+
+payment.children[1].defaultSelected = true;
+if (payment.children[1].defaultSelected) {
+    payPal.style.display = "none";
+    bitCoin.style.display = "none";
+}
+payment.addEventListener("change", (e) => {
+    const selection = e.target.value;
+    if (selection === "paypal") {
+        payPal.style.display = "block";
+        creditCard.style.display = "none";
+        bitCoin.style.display = "none";
+    } else if (selection === "credit-card") {
+        creditCard.style.display = "block";
+        payPal.style.display = "none";
+        bitCoin.style.display = "none";
+    } else {
+        bitCoin.style.display = "block";
+        creditCard.style.display = "none";
+        payPal.style.display = "none";
+    }
 })
