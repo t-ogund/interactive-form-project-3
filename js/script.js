@@ -9,6 +9,7 @@ const payment = document.querySelector("#payment");
 const creditCard = document.querySelector("#credit-card");
 const payPal = document.querySelector("#paypal");
 const bitCoin = document.querySelector("#bitcoin");
+const form = document.querySelector("form");
 
 
 name.focus();
@@ -75,4 +76,55 @@ payment.addEventListener("change", (e) => {
         creditCard.style.display = "none";
         payPal.style.display = "none";
     }
+})
+
+
+form.addEventListener("submit", (e) => {
+    console.log(e.target);
+    const email = e.target.children[1].children[0].children[2].children[1].value
+    const activitiesBox = document.querySelectorAll("#activities-box input");
+    console.log(activitiesBox)
+    function nameValidator() {
+        if (name.value.length === 0) {
+            return false
+        }
+    }
+
+    function emailValidator(email) {
+        const re = /\S+@\S+\.\S+/;
+        return re.test(email);
+    }
+
+    function activitiesValidator() {
+        let checkedActivities = 0;
+        for (let i = 0; i < activitiesBox.length; i++) {
+            if (activitiesBox[i].checked) {
+                checkedActivities += 1;
+            }
+        }
+        console.log(checkedActivities)
+        if (checkedActivities < 1) {
+           return false
+        }
+        return true
+    }
+    activitiesValidator();
+    // console.log(emailValidator(email));
+
+    
+    nameValidator();
+    if (!nameValidator()) {
+        console.log("name validator works")
+        e.preventDefault();
+
+    }
+    
+    function cardValidator() {
+        if (creditCard.style.display !== "none") {
+            console.log("card validator works")
+        }
+    }
+    cardValidator();
+
+
 })
