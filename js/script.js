@@ -10,6 +10,9 @@ const creditCard = document.querySelector("#credit-card");
 const payPal = document.querySelector("#paypal");
 const bitCoin = document.querySelector("#bitcoin");
 const form = document.querySelector("form");
+const ccNum = document.querySelector("#cc-num");
+const zip = document.querySelector("#zip");
+const cvv = document.querySelector("#cvv");
 
 
 name.focus();
@@ -84,10 +87,16 @@ form.addEventListener("submit", (e) => {
     const email = e.target.children[1].children[0].children[2].children[1].value
     const activitiesBox = document.querySelectorAll("#activities-box input");
     console.log(activitiesBox)
-    function nameValidator() {
+
+    function nameValidator(e) {
+        console.log(e.target)
+        console.log(name.value)
         if (name.value.length === 0) {
+        e.preventDefault();
             return false
-        }
+        } 
+        // e.preventDefault();
+        return true
     }
 
     function emailValidator(email) {
@@ -104,27 +113,55 @@ form.addEventListener("submit", (e) => {
         }
         console.log(checkedActivities)
         if (checkedActivities < 1) {
+            // e.preventDefault();
            return false
         }
         return true
     }
-    activitiesValidator();
-    // console.log(emailValidator(email));
+    console.log("Email Validator", emailValidator(email));
+    console.log("Activities Validator", activitiesValidator());
+
 
     
-    nameValidator();
-    if (!nameValidator()) {
-        console.log("name validator works")
-        e.preventDefault();
+    console.log("Name Validator", nameValidator(e));
+    // if (!nameValidator()) {
+    //     console.log("name validator works")
+    //     e.preventDefault();
 
-    }
+    // }
     
-    function cardValidator() {
+    function cardValidator(e) {
+        const cardDigits = "0123456789";
+        const cardDigitTester = /[^0-9]/g
+        const zipTester = /^\d{5}$/
+        const cvvTester = /^\d{3}$/
+        console.log(zipTester.test(12345))
+        console.log(cvvTester.test(123));
         if (creditCard.style.display !== "none") {
-            console.log("card validator works")
+            if (ccNum.value.length >= 13 &&
+                ccNum.value.length <= 16 &&
+                !cardDigitTester.test(ccNum.value) &&
+                zipTester.test(zip.value) &&
+                cvvTester.test(cvv.value)) {
+                console.log("valid")
+                return true
+            } else {
+                console.log("invalid");
+                return false
+            }
+            // if (cardDigitTester.test(ccNum.value)) {
+            //     console.log("digit check is valid")
+            // } else {
+            //     console.log("digit check is invalid");
+            // }
+            
         }
     }
     cardValidator();
-
+    // console.log(cardValidator(ccNum.value));
+    // console.log(name.value)
+    if (nameValidator() || emailValidator() || activitiesValidator() || cardValidator() === false) {
+        e.preventDefault();
+    }
 
 })
