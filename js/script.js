@@ -22,6 +22,8 @@ const cvvHint = document.querySelector(".cvv-hint");
 const nameHint = document.querySelector(".name-hint");
 const emailHint = document.querySelector(".email-hint");
 const activitiesHint = document.querySelector(".activities-hint");
+const hint = document.querySelectorAll(".hint");
+console.log(hint);
 
 
 
@@ -102,7 +104,7 @@ form.addEventListener("submit", (e) => {
             name.parentElement.classList.remove("valid");
             nameHint.style.display = "block";
         // e.preventDefault();
-            return false
+            // return false
         } else {
             name.parentElement.classList.add("valid");
             name.parentElement.classList.remove("not-valid");
@@ -110,8 +112,9 @@ form.addEventListener("submit", (e) => {
 
         }
         // e.preventDefault();
-        return true
+        // return true
     }
+    nameValidator();
 
     function emailValidator() {
         const re = /\S+@\S+\.\S+/;
@@ -127,6 +130,7 @@ form.addEventListener("submit", (e) => {
         }
         // return re.test(email.value);
     }
+    emailValidator();
 
     function activitiesValidator() {
         let checkedActivities = 0;
@@ -149,6 +153,7 @@ form.addEventListener("submit", (e) => {
         }
         
     }
+    activitiesValidator();
     
     function cardValidator() {
         const cardDigits = "0123456789";
@@ -186,9 +191,19 @@ form.addEventListener("submit", (e) => {
         }
     }
     cardValidator();
-    
-    if (nameValidator() || emailValidator() || activitiesValidator() || cardValidator() !== true) {
-        e.preventDefault();
+    console.log(nameValidator)
+    console.log(emailValidator)
+    console.log(activitiesValidator)
+    console.log(cardValidator)
+
+    // if (nameValidator() || emailValidator() || activitiesValidator() || cardValidator() !== true) {
+    //     e.preventDefault();
+    // }
+
+    for (let i = 0; i < hint.length; i++) {
+        if (hint[i].parentElement.classList.contains("not-valid")) {
+            e.preventDefault();
+        }
     }
 })
 
