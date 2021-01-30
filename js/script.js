@@ -1,3 +1,4 @@
+//Variable declarations
 const name = document.querySelector("#name");
 const otherJobRole = document.querySelector("#other-job-role");
 const title = document.querySelector("#title");
@@ -23,13 +24,13 @@ const nameHint = document.querySelector(".name-hint");
 const emailHint = document.querySelector(".email-hint");
 const activitiesHint = document.querySelector(".activities-hint");
 const hint = document.querySelectorAll(".hint");
-console.log(hint);
 
-
-
+//this line ensures the name input is focused on load
 name.focus();
+//this line hides the other job role section
 otherJobRole.style.display = "none";
 
+//if other is selected other job role section will appear
 title.addEventListener("change", (e) => {
     if (e.target.value === "other") {
         otherJobRole.style.display = "block";
@@ -38,8 +39,10 @@ title.addEventListener("change", (e) => {
     }
 })
 
+//disables color field
 color.disabled = true;
 
+//controls which color options are available based on the time the user selects
 design.addEventListener("change", (e) => {
     color.disabled = false;
     if (e.target.value === "js puns") {
@@ -60,6 +63,7 @@ design.addEventListener("change", (e) => {
     }  
 })
 
+//this section tracks the total cost in a variable
 let totalCost = 0;
 activities.addEventListener("change", (e) => {
     if (e.target.checked === true) {
@@ -67,9 +71,10 @@ activities.addEventListener("change", (e) => {
     } else {
         totalCost -= parseInt(e.target.dataset.cost);
     }
-    activitiesCost.textContent = `${totalCost}`;
+    activitiesCost.textContent = `Total: $${totalCost}`;
 })
 
+//this section displays the user payment options
 payment.children[1].defaultSelected = true;
 if (payment.children[1].defaultSelected) {
     payPal.style.display = "none";
@@ -92,30 +97,25 @@ payment.addEventListener("change", (e) => {
     }
 })
 
-
+//form section
 form.addEventListener("submit", (e) => {
-    //DELETE PREVENTDEFAULT
-    // e.preventDefault();
     const activitiesBox = document.querySelectorAll("#activities-box input");
-
+    //name validator helper function
     function nameValidator(event) {
         if (name.value.length === 0) {
             name.parentElement.classList.add("not-valid");
             name.parentElement.classList.remove("valid");
             nameHint.style.display = "block";
-        // e.preventDefault();
-            // return false
         } else {
             name.parentElement.classList.add("valid");
             name.parentElement.classList.remove("not-valid");
             nameHint.style.display = "none";
-
         }
-        // e.preventDefault();
-        // return true
     }
+    //function call
     nameValidator();
 
+    //emailValidator function to validate email
     function emailValidator() {
         const re = /\S+@\S+\.\S+/;
         const result = (re.test(email.value))
@@ -128,10 +128,11 @@ form.addEventListener("submit", (e) => {
             email.parentElement.classList.remove("not-valid");
             emailHint.style.display = "none";
         }
-        // return re.test(email.value);
     }
+    //function call
     emailValidator();
 
+    //activites validator function
     function activitiesValidator() {
         let checkedActivities = 0;
         for (let i = 0; i < activitiesBox.length; i++) {
@@ -143,23 +144,22 @@ form.addEventListener("submit", (e) => {
             activities.classList.add("not-valid");
             activities.classList.remove("valid");
             activitiesHint.style.display = "block";
-            // e.preventDefault();
-        //    return false
+
         } else if (checkedActivities >= 1) {
             activities.classList.add("valid");
             activities.classList.remove("not-valid");
             activitiesHint.style.display = "none";
-            // return true
         }
-        
     }
+    //function call
     activitiesValidator();
     
+    //card validator function
     function cardValidator() {
         const cardDigits = "0123456789";
-        const cardDigitTester = /[^0-9]/g
-        const zipTester = /^\d{5}$/
-        const cvvTester = /^\d{3}$/
+        const cardDigitTester = /[^0-9]/g //Used W3schools.com https://www.w3schools.com/jsref/jsref_regexp_not_0-9.asp
+        const zipTester = /^\d{5}$/ //Used StackOverflow https://stackoverflow.com/questions/11127515/regex-for-5-digit-zip-or-empty   (username: Registered User)
+        const cvvTester = /^\d{3}$/ //Used StackOverflow https://stackoverflow.com/questions/11127515/regex-for-5-digit-zip-or-empty   (username: Registered User)
         if (creditCard.style.display !== "none") {
             if (ccNum.value.length >= 13 && ccNum.value.length <= 16 && !cardDigitTester.test(ccNum.value)) {
                     ccNum.parentElement.classList.add("valid");
@@ -190,16 +190,11 @@ form.addEventListener("submit", (e) => {
             } 
         }
     }
+    //function call
     cardValidator();
-    console.log(nameValidator)
-    console.log(emailValidator)
-    console.log(activitiesValidator)
-    console.log(cardValidator)
-
-    // if (nameValidator() || emailValidator() || activitiesValidator() || cardValidator() !== true) {
-    //     e.preventDefault();
-    // }
-
+ 
+    //this loop checks if any of the required fields have a class of "not-valid".
+    //if so, form submission is prevented
     for (let i = 0; i < hint.length; i++) {
         if (hint[i].parentElement.classList.contains("not-valid")) {
             e.preventDefault();
@@ -207,18 +202,19 @@ form.addEventListener("submit", (e) => {
     }
 })
 
+//blur function to aid in accessiblity
 function blur(e) {
     const blurLabel = e.target.parentElement
     blurLabel.classList.remove("focus");
 }
-// blur();
 
+//focus function to aid in accessiblity
 function focus(e) {
     const focusLabel = e.target.parentElement
     focusLabel.classList.add("focus");
 }
-// focus();
 
+//add the blur and focus event listeners to the each element in the activitiesCheckBox nodelist
 for (let i = 0; i < activitiesCheckBox.length; i++) {
     activitiesCheckBox[i].addEventListener("blur", blur);
     activitiesCheckBox[i].addEventListener("focus", focus);
