@@ -25,9 +25,6 @@ const activitiesHint = document.querySelector(".activities-hint");
 
 
 
-console.log(activitiesCheckBox);
-
-
 name.focus();
 otherJobRole.style.display = "none";
 
@@ -50,7 +47,7 @@ design.addEventListener("change", (e) => {
                color.children[i].style.display = "none";
            }
        }
-        // console.log(color.children[1].dataset.theme)
+
     } else if (e.target.value === "heart js") {
         for (let i = 0; i < color.children.length; i++) {
             color.children[i].style.display = "block";
@@ -69,7 +66,6 @@ activities.addEventListener("change", (e) => {
         totalCost -= parseInt(e.target.dataset.cost);
     }
     activitiesCost.textContent = `${totalCost}`;
-    console.log(totalCost)
 })
 
 payment.children[1].defaultSelected = true;
@@ -97,18 +93,11 @@ payment.addEventListener("change", (e) => {
 
 form.addEventListener("submit", (e) => {
     //DELETE PREVENTDEFAULT
-    e.preventDefault();
-    console.log(e.target);
-    // const email = e.target.children[1].children[0].children[2].children[1].value
+    // e.preventDefault();
     const activitiesBox = document.querySelectorAll("#activities-box input");
-    console.log(activitiesBox)
 
     function nameValidator(event) {
-        // console.log(e.target.value)
-        console.log(name.value)
-        console.log(event)
         if (name.value.length === 0) {
-            console.log(name.parentElement)
             name.parentElement.classList.add("not-valid");
             name.parentElement.classList.remove("valid");
             nameHint.style.display = "block";
@@ -125,11 +114,8 @@ form.addEventListener("submit", (e) => {
     }
 
     function emailValidator() {
-        console.log(email.value)
         const re = /\S+@\S+\.\S+/;
-        console.log(email)
         const result = (re.test(email.value))
-        console.log(result)
         if (result === false) {
             email.parentElement.classList.add("not-valid");
             email.parentElement.classList.remove("valid");
@@ -139,7 +125,7 @@ form.addEventListener("submit", (e) => {
             email.parentElement.classList.remove("not-valid");
             emailHint.style.display = "none";
         }
-        return re.test(email.value);
+        // return re.test(email.value);
     }
 
     function activitiesValidator() {
@@ -149,56 +135,37 @@ form.addEventListener("submit", (e) => {
                 checkedActivities += 1;
             }
         }
-        console.log(checkedActivities)
         if (checkedActivities < 1) {
-            console.log(checkedActivities)
             activities.classList.add("not-valid");
             activities.classList.remove("valid");
             activitiesHint.style.display = "block";
             // e.preventDefault();
-           return false
-        } else {
+        //    return false
+        } else if (checkedActivities >= 1) {
             activities.classList.add("valid");
             activities.classList.remove("not-valid");
             activitiesHint.style.display = "none";
+            // return true
         }
-        return true
+        
     }
-    console.log("Email Validator", emailValidator(email));
-    console.log("Activities Validator", activitiesValidator());
-
-
     
-    console.log("Name Validator", nameValidator(e));
-    // if (!nameValidator()) {
-    //     console.log("name validator works")
-    //     e.preventDefault();
-
-    // }
-    
-    function cardValidator(e) {
+    function cardValidator() {
         const cardDigits = "0123456789";
         const cardDigitTester = /[^0-9]/g
         const zipTester = /^\d{5}$/
         const cvvTester = /^\d{3}$/
-        console.log(zipTester.test(12345))
-        console.log(cvvTester.test(123));
         if (creditCard.style.display !== "none") {
             if (ccNum.value.length >= 13 && ccNum.value.length <= 16 && !cardDigitTester.test(ccNum.value)) {
-                    console.log("good")
                     ccNum.parentElement.classList.add("valid");
                     ccNum.parentElement.classList.remove("not-valid");
                     ccHint.style.display = "none";
                 } else {
-                    console.log("no bueno");
                     ccNum.parentElement.classList.add("not-valid");
                     ccNum.parentElement.classList.remove("valid");
                     ccHint.style.display = "block";
-
                 }
-
             if (zipTester.test(zip.value) === true) {
-                console.log("good good")
                 zip.parentElement.classList.add("valid");
                 zip.parentElement.classList.remove("not-valid");
                 zipHint.style.display = "none";
@@ -206,11 +173,8 @@ form.addEventListener("submit", (e) => {
                 zip.parentElement.classList.add("not-valid");
                 zip.parentElement.classList.remove("valid");
                 zipHint.style.display = "block";
-
             }
-
             if (cvvTester.test(cvv.value) === true) {
-                console.log("good good good")
                 cvv.parentElement.classList.add("valid");
                 cvv.parentElement.classList.remove("not-valid");
                 cvvHint.style.display = "none";
@@ -218,54 +182,24 @@ form.addEventListener("submit", (e) => {
                 cvv.parentElement.classList.add("not-valid");
                 cvv.parentElement.classList.remove("valid");
                 cvvHint.style.display = "block";
-            }
-            //     zipTester.test(zip.value) &&
-            //     cvvTester.test(cvv.value)) {
-            //     console.log("valid")
-            //     return true
-            // } else {
-            //     console.log("invalid");
-            //     return false
-            // }
-            // if (cardDigitTester.test(ccNum.value)) {
-            //     console.log("digit check is valid")
-            // } else {
-            //     console.log("digit check is invalid");
-            // }
-            
+            } 
         }
     }
     cardValidator();
-    console.log(ccNum)
-    // console.log(cardValidator(ccNum.value));
-    // console.log(name.value)
-    if (nameValidator() || emailValidator() || activitiesValidator() || cardValidator() === false) {
+    
+    if (nameValidator() || emailValidator() || activitiesValidator() || cardValidator() !== true) {
         e.preventDefault();
     }
-
-    const validators = [
-        nameValidator(),
-        emailValidator(),
-        activitiesValidator(),
-        cardValidator()
-    ];
-    console.log(validators)
-    console.log(nameValidator());
-
 })
 
-console.log(activitiesCheckBox);
 function blur(e) {
     const blurLabel = e.target.parentElement
-    console.log("blurry", e.target.parentElement);
     blurLabel.classList.remove("focus");
-
 }
 // blur();
 
 function focus(e) {
     const focusLabel = e.target.parentElement
-    console.log("sharp", e.target.parentElement);
     focusLabel.classList.add("focus");
 }
 // focus();
@@ -273,19 +207,4 @@ function focus(e) {
 for (let i = 0; i < activitiesCheckBox.length; i++) {
     activitiesCheckBox[i].addEventListener("blur", blur);
     activitiesCheckBox[i].addEventListener("focus", focus);
-    console.log(activitiesCheckBox[i])
 }
-
-// const validators = [
-//     nameValidator(),
-//     emailValidator(),
-//     activitiesValidator(),
-//     cardValidator()
-// ];
-// activitiesCheckBox.addEventListener("focus", () => {
-//     console.log("focus");
-// })
-
-// activitiesCheckBox.addEventListener("blur", () => {
-//     console.log("blur");
-// })  
