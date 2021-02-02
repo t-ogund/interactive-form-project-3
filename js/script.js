@@ -45,9 +45,13 @@ color.disabled = true;
 //controls which color options are available based on the time the user selects
 design.addEventListener("change", (e) => {
     color.disabled = false;
+    color.children[0].textContent = "Please select a T-shirt theme";
+
     if (e.target.value === "js puns") {
+        color.children[0].style.backgroundColor = "red";
        for (let i = 0; i < color.children.length; i++) {
            color.children[i].style.display = "block";
+           color.children[0].style.display = "none";
            if (color.children[i].dataset.theme === "heart js") {
                color.children[i].style.display = "none";
            }
@@ -56,6 +60,7 @@ design.addEventListener("change", (e) => {
     } else if (e.target.value === "heart js") {
         for (let i = 0; i < color.children.length; i++) {
             color.children[i].style.display = "block";
+           color.children[0].style.display = "none";
             if (color.children[i].dataset.theme === "js puns") {
                 color.children[i].style.display = "none";
             }
